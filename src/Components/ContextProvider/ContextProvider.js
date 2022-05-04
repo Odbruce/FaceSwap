@@ -3,7 +3,7 @@ import { reducer } from "../Reducer/reducer";
 
 
 const defaultState = {
-  Face: "",
+  Face: null,
   BoundingBox: [],
   sc: [],
   up: [],

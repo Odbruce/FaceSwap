@@ -70,7 +70,7 @@ export const reducer = (state, action) => {
   }
   if(action.type === "CLEAR_FACE"){
     return {
-      ...state,Face:""
+      ...state,Face:null
     };
   }
   if(action.type ==="FILTERED") {

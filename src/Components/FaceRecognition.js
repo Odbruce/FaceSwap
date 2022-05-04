@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useGlobalContext } from "./ContextProvider/ContextProvider";
+import { useFireContext } from "./FirebaseContext";
 
 const FaceRecognition = () => {
+  const {user} = useFireContext()
   const {
     Face,
     up,
@@ -20,7 +22,7 @@ const FaceRecognition = () => {
       <div className="output-inner">
         {Face&&<div className="img-container">
           <img src={Face} alt="" className="img_face" />
-          up
+          {up}
         </div>}
         <div className="control">
           <div className="title">
@@ -58,8 +60,8 @@ const FaceRecognition = () => {
             <button className="btn" onClick={flipped}>
               Flip
             </button>{" "}
-            <button className="btn" onClick={memed}>
-              Save
+            <button disabled = {!user} className={!user?"disabled-btn ":"btn"} onClick={memed}>
+              Save{console.log(Face,user)}
             </button>
           </div>
         </div>
@@ -209,7 +211,6 @@ const Wrapper = styled.section `
           color: thistle;
         }
       }
-
       .btn {
         font-family: 'Indie Flower', cursive;
         font-size:1rem;
@@ -247,6 +248,24 @@ const Wrapper = styled.section `
           }
         }
 
+      }
+
+      .disabled-btn{ 
+        font-family: 'Indie Flower', cursive;
+        font-size:1rem;
+        font-weight:bold;
+        letter-spacing:.15rem;
+        width: fit-content;
+        padding: 0.4em;
+        outline: none;
+        cursor: pointer;
+        background: transparent;
+        border: grey solid 1px;
+          &:nth-of-type(1){
+          color:black;
+          background:grey;
+
+        }
       }
      
     }

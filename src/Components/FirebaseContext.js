@@ -10,7 +10,7 @@ import {createUserWithEmailAndPassword,
 const Context = React.createContext()
 const FirebaseContext = ({children}) => {
     const [loading , setLoading ] = useState(true);
-    const [user,setUser] = useState("");
+    const [user,setUser] = useState(null);
     const [isLoggedIn,setisLoggedIn]  = useState(false);
     const [meme, setMeme] = useState([]);
 
@@ -36,6 +36,7 @@ const FirebaseContext = ({children}) => {
        
        }
        const logOut = ()=>{
+         setUser(null);
          return signOut(auth);
        }
     
@@ -62,8 +63,6 @@ const FirebaseContext = ({children}) => {
        const addMeme = (up,Face)=>{
         const colRef = collection(db,`${user}`);
            const emojiStyle = up.map((item) => item.props.style);
-    console.log(meme);
-    console.log(Face,emojiStyle);
             const style = JSON.stringify(emojiStyle)
        return  addDoc(colRef,{Face,style,createdAt:serverTimestamp()},)
        }
