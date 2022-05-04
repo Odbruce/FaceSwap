@@ -1,0 +1,21 @@
+.register {
+    height: 77.6vh;
+    display: grid;
+    place-content: center;
+  }
+  .register main {
+    width: fit-content;
+    background: #463c46;
+    height: fit-content;
+    position: relative;
+    box-shadow: 0 4px 22px 0 rgba(0, 0, 0, 0.3);
+    padding: 1em 2em;
+    text-align: center;
+  }
+
+  @media screen and (max-width:830px){
+    .register {
+      height:91.8vh;
+  
+    }
+  }
