@@ -76,7 +76,9 @@ const Wrapper = styled.section`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2.5rem;
+
   p {
+    font-family: "Roboto", san-serif;
     font-size: 20px;
     font-weight: 300 bold;
     line-height: 30px;
