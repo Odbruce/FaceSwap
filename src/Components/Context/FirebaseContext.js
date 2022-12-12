@@ -1,5 +1,5 @@
-import React,{useContext,useEffect,useState,} from "react"
-import { auth,db } from "../firebase";
+import React,{useContext,useEffect,useRef,useState,} from "react"
+import { auth,db } from "../../firebase";
 import {createUserWithEmailAndPassword,
     onAuthStateChanged,
     signInWithEmailAndPassword,
@@ -13,6 +13,9 @@ const FirebaseContext = ({children}) => {
     const [user,setUser] = useState(null);
     const [isLoggedIn,setisLoggedIn]  = useState(false);
     const [meme, setMeme] = useState([]);
+    const [sideMenu, setSideMenu] = useState(false);
+
+  const ref = useRef(null); 
 
     useEffect( ()=>{
         const unsubscribe= onAuthStateChanged(auth,user=>{
@@ -51,6 +54,7 @@ const FirebaseContext = ({children}) => {
           setMeme( snapshot.docs.map((doc)=>{
             const {Face, style} = doc.data();
             const emoji = JSON.parse(style);
+            console.log(Face,emoji)
             return {Face,style:emoji,id:doc.id}
             }));
 
@@ -80,6 +84,9 @@ const FirebaseContext = ({children}) => {
 
   return (<Context.Provider value = {{
      signUp,
+     sideMenu,
+     setSideMenu,
+     ref,
      user,
      login,
      logOut,

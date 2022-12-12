@@ -1,9 +1,14 @@
-import React, { useContext, useReducer, useEffect } from "react";
+import React, { useContext, useReducer, useEffect, useState, useRef } from "react";
+import { getDimension } from "../../Utilities";
 import { reducer } from "../Reducer/reducer";
 
 
 const defaultState = {
   Face: null,
+  modal:"",
+  Load:null,
+  isLoading:false,
+  url:"",
   BoundingBox: [],
   sc: [],
   up: [],
@@ -21,67 +26,71 @@ const ContextProvider = ({ children,addMeme,user }) => {
 
   const [state, dispatch] = useReducer(reducer, defaultState);
 
-  const { Face, emojiInput, img, BoundingBox, up, flip, turn, emoji } = state;
+  
 
-  //  home handling
-  useEffect(() => {
+  const { Face,Load,emojiInput,BoundingBox, up, flip, turn, emoji } = state;
+
+  //  Api handling
+useEffect(()=>{
+     const isBase64 = ()=>{
+     
+      if(Load.slice(0,4) == "http"){IMAGE_BYTES_STRING = Load; PROP = "url"; return; } 
+      else{IMAGE_BYTES_STRING = Load; PROP = "base64";return;};
+    }
+    const USER_ID = process.env.REACT_APP_USER_ID;
+    const PAT = process.env.REACT_APP_PAT;
+    const APP_ID = process.env.REACT_APP_APP_ID;
+    const MODEL_ID = "face-detection";
+    const MODEL_VERSION_ID = 'fe995da8cb73490f8556416ecf25cea3';
+    let IMAGE_BYTES_STRING, PROP;
+
+    Load&&isBase64();
+
     const raw = JSON.stringify({
-      user_app_id: {
-        user_id: "apeman1429_1",
-        app_id: "4757eb4236c54745a58c9604585355ad",
-      },
-      inputs: [
-        {
-          data: {
-            image: {
-              url: Face,
-            },
-          },
+        "user_app_id": {
+            "user_id": USER_ID,
+            "app_id": APP_ID
         },
-      ],
+        "inputs": [
+            {
+                "data": {
+                    "image": {
+                        [PROP]: IMAGE_BYTES_STRING
+                    }
+                }
+            }
+        ]
     });
 
     const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: "Key a36801c4467b40d49d61963f66f051ef",
-      },
-      body: raw,
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': 'Key ' + PAT
+        },
+        body: raw
     };
-    Face &&
-      fetch(
-        "https://api.clarifai.com/v2/models/face-detection/versions/fe995da8cb73490f8556416ecf25cea3/outputs",
-        requestOptions
-      )
-        .then((response) => response.text())
-        .then((result) =>
-          dispatch({
-            type: "FETCH",
-            payload: JSON.parse(result, null, 2).outputs[0].data.regions.map(
-              (item) => {
-                const {
-                  id,
-                  region_info: {
-                    bounding_box: { top_row, bottom_row, right_col, left_col },
-                  },
-                } = item;
-                let tp,lt, ht, wt;
-                tp = `${100 * top_row - 3}%`;
-                lt = `${100 * left_col - 2}%`;
-                ht = `${(bottom_row - top_row) * 100 + 5}%`;
-                wt = `${(right_col - left_col) * 100 + 4}%`;
 
-                return { id, tp, lt, wt, ht };
-              }
-            ),
-          })
-        )
-        .catch((error) => console.log("error", error));
-  }, [Face]);
+    const fetched = async ()=>{ 
+      try { dispatch({type:"LOADING",payload:true});
+          let response = await fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
+          let result = await response.text();
 
 
-  // picking out faces and styling;
+          dispatch({type:"LOADING",
+                    payload:false
+                  });
+
+          dispatch({  type: "FETCH",
+                      payload: getDimension(result), 
+                    })
+      }
+      catch (error){ return;}
+    }
+    Load&&fetched();
+},[Load])
+
+
   useEffect(() => {
     BoundingBox.length > 0 &&
       dispatch({
@@ -95,20 +104,18 @@ const ContextProvider = ({ children,addMeme,user }) => {
             left: lt,
             height: ht,
             transform: `${turn[id]} ${flip[id]}`,
-            width: wt,
-            backgroundImage: emoji[id],
             position:"absolute",
+            backgroundImage:`url(${emoji[id]})`,
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
             backgroundSize: "contain",
             borderRadius:" 50%",
           };
-
           return (
             <div
+            className="cursor"
               key={id}
               id={id}
-              className="bounding-box"
               style={style}
               onClick={() => {
                 dispatch({ type: "KEY", payload: id });
@@ -119,31 +126,47 @@ const ContextProvider = ({ children,addMeme,user }) => {
       });
   }, [BoundingBox, turn, emoji, flip]);
 
-
-  
-  const FaceChange =  (e) => {
-    e.preventDefault();
+  const FaceChange =  (img,byte) => {
     dispatch({
       type: "FACE_CHANGE",
-      payload: img,
+      payload:img,
     });
-   dispatch({type:"SET_IMG"});
+
+    dispatch({
+      type:"LOAD",
+      payload:img.slice(0,4) !== "http"?byte:img
+    });
+
+    dispatch({type:"SET_IMG"});
   };
 
   const inputChange = (e) => {
     e.preventDefault();
     const { value } = e.target;
-    console.log("input_change")
-    // setImg(value);
-    dispatch({type:"INPUT_CHANGE",payload:value})
+    dispatch({
+      type:"URL",
+      payload:value
+    });
+
+    dispatch({
+      type:"INPUT_CHANGE",
+      payload:value
+    })
+
     return;
   };
   //face emoji handling
   const angled = (e) => {
     const { value } = e.target;
     // setAngle(value);
-    dispatch({type:"ANGLE",payload: value})
-    dispatch({ type: "TURN", payload: value });
+    dispatch({
+      type:"ANGLE",
+      payload: value
+    })
+    dispatch({
+      type: "TURN",
+      payload: value
+    });
   };
 
   const flipped = () => {
@@ -157,34 +180,36 @@ const ContextProvider = ({ children,addMeme,user }) => {
 
   const emojied = (e) => {
     const { src } = e.target;
-    console.log(src);    
-    dispatch({ type: "EMOJIED", payload: src ? src : emojiInput });
+    
+    dispatch({
+      type: "EMOJIED",
+      payload: src ? src : emojiInput
+    });
     dispatch({type:"SET_EMOJI_INPUT"})
   };
 
   const memed = () => {
     if(user){
-      console.log(user);
-      addMeme(up,Face);
-      // Face && dispatch({ type: "MEMED", payload: emojiStyle });
-      // document.location.reload(true);
+      console.log(up,Face)
+      
+      addMeme(up,Load);
+       URL.revokeObjectURL(Face);
        dispatch({type:"CLEAR_FACE"});
        dispatch({type:"CLEAR_EMOJI"});
-
     }
   };
 
   const toggle = () => {
     const form = document.getElementById("form_toggle");
     form.classList.toggle("toggle");
-    console.log(form);
-  };
+  }; 
 
 
   return (
     <AppContext.Provider
       value={{
         ...state,
+        dispatch,
         toggle,
         emojiChange,
         inputChange,

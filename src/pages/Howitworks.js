@@ -1,21 +1,94 @@
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-const Instructions = () => {
+const Howitworks = () => {
   console.log("instr");
+
+  const head = {
+    initial:{opacity:0},
+    animate:{opacity:1,
+    transition:{
+      staggerChildren:0.2,
+      when:"beforeChildren",
+      }
+    },
+  };
+
+  const headingone = {
+    initial:{
+      opacity:0,
+    },
+    animate:{
+      opacity:1,
+      transition:{duration:0.7}
+      }
+  };
+
+  const headingtwo = {
+    initial:{
+      opacity:0,
+      y:-10
+    },
+    animate:{
+      opacity:1,
+      y:0,
+      transition:{duration:0.5}
+    }
+  };
+
+  const paraone = {
+    initial:{
+      opacity:0,
+      y:10
+    },
+    animate:{
+      opacity:1,
+      y:0,
+      transition:{duration:0.6}
+    }
+  };
+
+  const steps = {
+
+    initial:{
+      opacity:0,
+      y:10
+    },
+    animate:{
+      opacity:1,
+      y:0,
+      transition:{duration:0.4},
+    }
+  };
+
+  const stepshead ={
+    initial:{
+      opacity:0,
+    },
+    animate:{
+      opacity:1,
+      transition:{
+        delay:0.7,
+        when:"beforeChildren",
+        staggerChildren:0.2,
+      }
+    }
+  };
+
   return (
     <Wrapper>
-      <div className="meme-intro">
-        <h1>What is Memed?</h1>
-        <p>
+      <motion.div variants={head} initial="initial" animate = "animate" className="meme-intro">
+        <motion.h1 variants={headingone}   >What is Memed?</motion.h1>
+        <motion.p variants={paraone}  >
           Memed is an interactive website concept that enables users to create
           memes from regular stock images.
           <br />
           The newly created memes can be saved to the website upon creation.
-        </p>
-      </div>
-      <div className="howitworks">
-        <h1>How does it work?</h1>
-        <div className="steps">
+        </motion.p>
+      </motion.div>
+      <motion.div variants={stepshead} initial="initial" animate="animate" className="howitworks">
+        <motion.h1 variants={headingtwo}  >How does it work?</motion.h1>
+        <motion.div variants={steps}   className="steps">
           <span className="span">
             <span>1</span>
           </span>
@@ -23,8 +96,8 @@ const Instructions = () => {
             <h3>Set up your account</h3>
             <p>Set-up your account by signing up on the website.</p>
           </div>
-        </div>
-        <div className="steps">
+        </motion.div>
+        <motion.div variants={steps}   className="steps">
           <span className="span">
             <span>2</span>
           </span>
@@ -35,10 +108,9 @@ const Instructions = () => {
               image in your browser and copy.
             </p>
           </div>
-        </div>
-        <div className="steps">
+        </motion.div>
+        <motion.div variants={steps}   className="steps">
           <span className="span">
-            {" "}
             <span>3</span>
           </span>
           <div>
@@ -48,10 +120,9 @@ const Instructions = () => {
               hover on the animated emoji to pick a desired emoji.
             </p>
           </div>
-        </div>
-        <div className="steps">
+        </motion.div>
+        <motion.div variants={steps}   className="steps">
           <span className="span">
-            {" "}
             <span>4</span>
           </span>
           <div>
@@ -63,12 +134,12 @@ const Instructions = () => {
               Saved works can be revisited on the website.
             </p>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </Wrapper>
   );
 };
-export default Instructions;
+export default Howitworks;
 
 const Wrapper = styled.section`
   padding: 0 3.47vw;
@@ -78,7 +149,7 @@ const Wrapper = styled.section`
   gap: 2.5rem;
 
   p {
-    font-family: "Roboto", san-serif;
+    font-family: "Roboto", sans-serif;
     font-size: 20px;
     font-weight: 300 bold;
     line-height: 30px;
@@ -109,7 +180,7 @@ const Wrapper = styled.section`
       div {
         h3 {
           font-size: 1rem;
-          font-family: "Roboto", san-serif;
+          font-family: "Roboto", sans-serif;
           font-size: 24px;
           font-weight: 500;
           line-height: 28px;

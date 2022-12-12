@@ -1,22 +1,51 @@
 import { Link } from "react-router-dom";
-import styled,{ keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { RiDeleteBin6Line as Bin } from "react-icons/ri";
-import { useEffect } from "react";
-import Loading from "../Components/Loading";
-import { useFireContext } from "./FirebaseContext";
-
+import { useEffect} from "react";
+import { useFireContext } from "./Context/FirebaseContext";
+import {
+  Loading,
+} from "../Utilities";
 
 export const MemeComponent = () => {
-  const {getMemes,meme,del,loading} = useFireContext();
-  console.log(meme.length)
-   
-    useEffect(() => {
-        // get from database
-       getMemes();
-      }, []);
-  return  (
+  const { getMemes, meme, del, loading } = useFireContext();
+  
+
+
+
+const base64ToUrl = (b64Data)=>{
+ 
+const b64toBlob = (b64Data, contentType='', sliceSize=512) => {
+  const byteCharacters = window.atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+const blob = b64toBlob(b64Data);
+const blobUrl = URL.createObjectURL(blob);
+return blobUrl;}
+
+  
+  useEffect(() => {
+    getMemes();
+  }, []);
+  return (
     <Wrapper className="meme">
-      <div className={meme.length < 1 ?"h":("not-empty")}>
+      <div className={meme.length < 1 ? "h" : "not-empty"}>
         <h1>G</h1>
         <h1>A</h1>
         <h1>L</h1>
@@ -27,8 +56,9 @@ export const MemeComponent = () => {
       </div>
 
       <div className="gallery">
-            
-        {loading?<Loading/>:meme.length < 1 ? (
+        {loading ? (
+          <Loading />
+        ) : meme.length < 1 ? (
           <div className="empty-meme">
             <img
               src="https://img.icons8.com/ios/150/f5eff5/no-image-gallery.png"
@@ -44,8 +74,9 @@ export const MemeComponent = () => {
         ) : (
           meme.map((item) => {
             const { Face, style, id } = item;
+            const url =Face.slice(0,4) !== "http"? base64ToUrl(Face):Face;
             return (
-              <section key={id} className="img-container">
+              <section key={id} id={id} className="img-container">
                 <div
                   onClick={() => {
                     del(id);
@@ -53,14 +84,22 @@ export const MemeComponent = () => {
                 >
                   <Bin className="bin" />
                 </div>
-                <img src={Face} alt="meme-face" className="img_face" />
-            
-                {style.map((item,index) => {
-                  // let key = Math.floor(Math.random() * Date.now());
+                <img
+                  src={url}
+                  alt="meme-face"
+                  className="img_face"
+                />
+
+                {style.map((item, index) => {
+               
                   return (
-                    <div key={index} className="bounding-box" style={item}></div>
+                    <div
+                      key={index}
+                      style={item}
+                    ></div>
                   );
                 })}
+               
               </section>
             );
           })
@@ -68,12 +107,12 @@ export const MemeComponent = () => {
       </div>
     </Wrapper>
   );
-}
+};
 const mem = keyframes`
 to {
   width: 9.5em;
 }
-`
+`;
 const h = keyframes`
 50% {
   transform: translateY(-0.2em);
@@ -85,7 +124,7 @@ const h = keyframes`
 100% {
   transform: translateY(0);
 }
-`
+`;
 const Wrapper = styled.section`
 min-height: 100vh;
 
@@ -153,7 +192,8 @@ min-height: 100vh;
     .empty-meme {
       display: grid;
       place-items: center;
-
+      color:grey;
+      font-family:"roboto",sans-serif;
       .link_home {
         color: #be9299;
       }
@@ -199,10 +239,11 @@ min-height: 100vh;
     
     .bounding-box {
       position: absolute;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: contain;
+      // background-position: center;
+      // background-repeat: no-repeat;
+      // background-size: contain;
+      object-fit:contain;
       border-radius: 50%;
     }
   }
-`
+`;

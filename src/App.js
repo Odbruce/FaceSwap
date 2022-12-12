@@ -1,31 +1,37 @@
 import Navigation from "./Components/Navigation";
-import { Home,Memes,Register,SignIn,Instructions } from "./pages";
-import PrivateRoute from "./Components/PrivateRoute";
+import { Home,Memes,Register,SignIn,Howitworks } from "./pages";
 import { Routes, Route, Navigate} from "react-router-dom";
-import { useFireContext } from "./Components/FirebaseContext";
-import { ContextProvider } from "./Components/ContextProvider/ContextProvider";
+import { useFireContext } from "./Components/Context/FirebaseContext";
+import { ContextProvider, useGlobalContext } from "./Components/Context/ContextProvider";
+import { PrivateRoute } from "./Utilities";
 
 
 const App = ()=>{
-  const {isLoggedIn,user,addMeme} = useFireContext();
+  const {isLoggedIn,user,addMeme,setSideMenu,sideMenu,ref} = useFireContext();
+ 
+  const whenClickedOutside = (e) => {
+    if (sideMenu && ref.current && !ref.current.contains(e.target)) {
+      setSideMenu(false);
+    }
+  };
  
   return (
     <>
-      <div className="app">
+      <div onClick={whenClickedOutside} className="app">
        
-    <ContextProvider addMeme={addMeme} user={user} >
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/howitworks" element={<Instructions />} />
-          <Route path="/memes" element={<PrivateRoute isLoggedIn = {isLoggedIn} redirecto = "/signin" ><Memes /></PrivateRoute>} />
-          <Route element={<PrivateRoute isLoggedIn={!isLoggedIn} redirecto={"/home"}/>} >
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/register" element={<Register />} />
-          </Route>         
-        </Routes>
-    </ContextProvider>
+      <ContextProvider addMeme={addMeme} user={user} >
+          <Navigation />
+          <Routes>
+            <Route path="/" element={<Navigate to="/home" />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/howitworks" element={<Howitworks />} />
+            <Route path="/memes" element={<PrivateRoute isLoggedIn = {isLoggedIn} redirecto = "/signin" ><Memes /></PrivateRoute>} />
+            <Route element={<PrivateRoute isLoggedIn={!isLoggedIn} redirecto={"/home"}/>} >
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/register" element={<Register />} />
+            </Route>         
+          </Routes>
+      </ContextProvider>
 
       </div>
     </>

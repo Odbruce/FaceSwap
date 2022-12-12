@@ -11,15 +11,30 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url("./images/face_swap_background.jpeg");
+  background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url("./images/face_swap_background.jpeg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
- 
-
+  scrollbar-width: none;
+  overflow: auto;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.download{
+  position:absolute;
+  top:3px;
+  left: 5px;
+}
 /* loading start */
+.bounding-box{
+object-fit: contain;
+color:#f5f5dc
+}
+
+
 .lds-default {
   display: inline-block;
   position: relative;
@@ -127,5 +142,7 @@ body {
   width: 600px;
   max-width: 600px;
 }
-
+.cursor{
+  cursor:pointer;
+}
 

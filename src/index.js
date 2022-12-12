@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { FirebaseContext } from './Components/FirebaseContext';
+import { FirebaseContext } from "./Components/Context/FirebaseContext";
+
 ReactDOM.render(
   <React.StrictMode>
     <Router>  

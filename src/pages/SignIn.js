@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "../Form-style/register.css"
 import { useNavigate } from "react-router-dom";
 import { Error, Form } from "../Form-style/styled";
-import { useFireContext } from "../Components/FirebaseContext";
+import { useFireContext } from "../Components/Context/FirebaseContext";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

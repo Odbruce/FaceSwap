@@ -1,7 +1,7 @@
 import Home from "./Home";
-import Instructions from "./Instructions";
+import Howitworks from "./Howitworks";
 import Register from "./Register";
 import SignIn from "./SignIn";
 import Memes from "./Memes";
 
-export {Home,Instructions,Register,SignIn,Memes};
+export {Home,Howitworks,Register,SignIn,Memes};

@@ -1,6 +1,6 @@
 import { useMatch } from "react-router-dom";
-import { useGlobalContext } from "./ContextProvider/ContextProvider";
-import { useFireContext } from "./FirebaseContext";
+import { useGlobalContext } from "./Context/ContextProvider";
+import { useFireContext } from "./Context/FirebaseContext";
 import styled from "styled-components";
 
 const Logo = () => {
@@ -15,15 +15,15 @@ const Logo = () => {
     "https://emojipedia-us.s3.amazonaws.com/source/skype/289/slightly-smiling-face_1f642.png";
   return (
     <Wrapper>
-      <div className={!homie ? "no_flip" : "flip-card-inner"}>
-        <div className="flip-card-front">
+       <div className={!homie ? "no_flip" : "flip-card-inner"}>
+        <div className="flip_card_front">
           <img
             className={memie ? (meme.length < 1 ? "sad" : "") : ""}
             src={memie ? (meme.length < 1 ? sad : happy) : happy}
             alt="emoji"
           />
         </div>
-        <div className="flip-card-back">
+        <div className="flip_card_back cursor">
           <img
             src="https://emojipedia-us.s3.amazonaws.com/source/skype/289/beaming-face-with-smiling-eyes_1f601.png"
             onClick={emojied}
@@ -122,15 +122,15 @@ const Wrapper = styled.section`
     transform-origin: center;
     transform-style: preserve-3d;    
 
-    .flip-card-front,
-    .flip-card-back {
+    .flip_card_front,
+    .flip_card_back {
       position: absolute;
       width: 100%;
       height: 100%;
       -moz-backface-visibility: hidden;
       backface-visibility: hidden;
     }
-    .flip-card-front {
+    .flip_card_front {
       color: black;
     
       .sad {
@@ -141,12 +141,10 @@ const Wrapper = styled.section`
         height: 10vw;
       }  
     }
-    .flip-card-back {
+    .flip_card_back {
       background-color: transparent;
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      color: white;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
       gap: 1em;
       height: fit-content;
       transform: rotateY(180deg);
@@ -160,7 +158,31 @@ const Wrapper = styled.section`
         font-weight:bold;
         text-decoration: none;
         color:rgb(40,36,228,.8);
+        color:whitesmoke;
         text-transform: capitalize;
+        position:relative;
+
+        &:hover:after{
+          transform:scaleX(1);
+        }
+        
+        &:after{
+          content:"";
+          width:100%;
+          height:2px;
+          position:absolute;
+          right:0;
+          bottom:0;
+          background:black;
+          transform:scaleX(0);
+          transform-origin:right;
+          transition:0.3s;
+          
+        
+
+        }
+
+
       }
       @media screen and (max-width: 830px) {
         width: 3em;

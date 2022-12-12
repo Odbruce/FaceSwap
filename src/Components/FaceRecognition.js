@@ -1,11 +1,17 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
 import styled from "styled-components";
-import { useGlobalContext } from "./ContextProvider/ContextProvider";
-import { useFireContext } from "./FirebaseContext";
+import { Loading } from "../Utilities";
+import { useGlobalContext } from "./Context/ContextProvider";
+import { useFireContext } from "./Context/FirebaseContext";
 
 const FaceRecognition = () => {
   const {user} = useFireContext()
   const {
+    dispatch,
+    modal,
     Face,
+    isLoading,
     up,
     angle,
     emojiChange,
@@ -16,14 +22,27 @@ const FaceRecognition = () => {
     memed,
   } = useGlobalContext();
 
+  
+
+  const saved = ()=>{
+    console.log(user)
+    !user&&dispatch({type:"MODAL",payload:"not_signedin"});
+    !Face&&user&&dispatch({type:"MODAL",payload:"no_img"});
+
+    return user&&Face&&memed();
+  }
+console.log(Face,modal);
 
   return (
     <Wrapper>
       <div className="output-inner">
-        {Face&&<div className="img-container">
-          <img src={Face} alt="" className="img_face" />
-          {up}
-        </div>}
+         { isLoading?<Loading/>:
+        Face&& 
+          <div className="img-container">
+            <img src={Face} alt="" className="img_face" />
+            {up}
+          </div>
+        } 
         <div className="control">
           <div className="title">
 
@@ -39,6 +58,7 @@ const FaceRecognition = () => {
           </div>
 
           <input
+            disabled = {!user||!Face}
             className="rotate-bar "
             type="range"
             min="-180"
@@ -48,6 +68,7 @@ const FaceRecognition = () => {
           />
           <div className="emoji ">
             <input
+              disabled = {!user||!Face}
               className="emoji-input"
               type="text"
               placeholder="Emoji..."
@@ -57,12 +78,12 @@ const FaceRecognition = () => {
             <button onClick={emojied}>+</button>
           </div>
           <div >
-            <button className="btn" onClick={flipped}>
+            <motion.button animate={{rotateZ:0,y:0,x:0}} whileTap={{rotateZ:!user||!Face&&[20,-30,15,-40],x:!user||!Face&&[5,-10,10,-4], transition:{type:"spring",damping:5}}}  className={!user||!Face?"disabled-btn ":"btn"} onClick={flipped}>
               Flip
-            </button>{" "}
-            <button disabled = {!user} className={!user?"disabled-btn ":"btn"} onClick={memed}>
+            </motion.button>{" "}
+            <motion.button animate={{rotateZ:0,y:0,x:0}} whileTap={{rotateZ:!user||!Face&&[20,-30,15,-40],x:!user||!Face&&[5,-10,10,-4], transition:{type:"spring",damping:5}}} className={!user||!Face?"disabled-btn ":"btn"} onClick={saved}>
               Save{console.log(Face,user)}
-            </button>
+            </motion.button>
           </div>
         </div>
       </div>
@@ -208,6 +229,7 @@ const Wrapper = styled.section `
           background: rgb(19, 18, 18, 0.7);
           border: none;
           padding: 2px 10px;
+          cursor:pointer;
           color: thistle;
         }
       }
@@ -220,7 +242,7 @@ const Wrapper = styled.section `
         padding: 0.4em;
         outline: none;
         cursor: pointer;
-        background: transparent;
+        // background: transparent;
         border: grey solid 1px;
         color: rgb(230, 220, 230);
 
@@ -258,13 +280,12 @@ const Wrapper = styled.section `
         width: fit-content;
         padding: 0.4em;
         outline: none;
+        color:#4E473D;
         cursor: pointer;
         background: transparent;
         border: grey solid 1px;
           &:nth-of-type(1){
-          color:black;
-          background:grey;
-
+          // color:black;
         }
       }
      

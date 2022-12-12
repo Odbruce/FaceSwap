@@ -1,30 +1,37 @@
 import Logo from "./Logo";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AiOutlineLogout as Out } from "react-icons/ai";
-import { useFireContext } from "./FirebaseContext";
+import { useFireContext } from "./Context/FirebaseContext";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
 import { useEffect, useRef, useState } from "react";
+import { useGlobalContext } from "./Context/ContextProvider";
 
 const Navigation = () => {
-  const [sideMenu, setSideMenu] = useState(false);
-  const { isLoggedIn, setisLoggedIn, loading, logOut } = useFireContext();
+  const {
+    isLoggedIn,
+    setisLoggedIn,
+    loading,
+    logOut,
+    setSideMenu,
+    sideMenu,
+    ref,
+  } = useFireContext();
   const navigate = useNavigate();
-  const ref = useRef(null);
 
-  useEffect(() => {
-    const whenClickedOutside = (e) => {
-      if (sideMenu && ref.current && !ref.current.contains(e.target)) {
-        setSideMenu(false);
-      }
-    };
+  // useEffect(() => {
+  //   // const whenClickedOutside = (e) => {
+  //   //   if (sideMenu && ref.current && !ref.current.contains(e.target)) {
+  //   //     setSideMenu(false);
+  //   //   }
+  //   // };
 
-    document.addEventListener("click", whenClickedOutside);
+  //   document.addEventListener("click", whenClickedOutside);
 
-    return () => {
-      document.removeEventListener("click", whenClickedOutside);
-    };
-  }, [sideMenu]);
+  //   return () => {
+  //     document.removeEventListener("click", whenClickedOutside);
+  //   };
+  // }, [sideMenu]);
 
   const Active = ({ isActive }) => {
     if (isActive) {
@@ -63,7 +70,7 @@ const Navigation = () => {
               onClick={handlemenu}
               className={(isActive) => Active(isActive)}
             >
-              Instructions
+              About
             </NavLink>
 
             <NavLink
@@ -108,17 +115,17 @@ export default Navigation;
 const head = keyframes` {
   50% {
     padding-bottom: 0.5em;
-    border-bottom: solid 1px rgb(70, 156, 142);
+    border-bottom: solid 2px rgb(70, 156, 142);
   }
   75% {
     padding-bottom: 0.1em;
 
-    border-bottom: solid 1px rgb(70, 156, 142);
+    border-bottom: solid 2px rgb(70, 156, 142);
   }
   100% {
     padding-bottom: 0.3em;
 
-    border-bottom: solid 1px rgb(70, 156, 142);
+    border-bottom: solid 2px rgb(70, 156, 142);
   }
 }`;
 
@@ -154,10 +161,11 @@ const Wrapper = styled.section`
           display: flex;
           cursor: pointer;
           gap: 10px;
-
+          
           .out {
             color: #f85353;
             font-size: 1.1rem;
+            transform:translatey(25%);
           }
 
           li {

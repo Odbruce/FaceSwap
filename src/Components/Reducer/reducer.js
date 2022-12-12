@@ -3,6 +3,21 @@ export const reducer = (state, action) => {
     console.log("face_change")
     return { ...state, Face: action.payload };
   }
+  if(action.type === "LOAD"){
+    console.log(action.payload);
+    return {...state,Load:action.payload};
+  }
+
+  if(action.type === "MODAL"){
+    return {...state,modal:action.payload};
+  }
+
+  if(action.type === "URL"){
+    return {...state,url:action.payload};
+  }
+  if(action.type=== "LOADING"){
+    return {...state,isLoading:action.payload};
+  }
   
   if (action.type === "KEY") {
     console.log("key")
@@ -32,7 +47,7 @@ export const reducer = (state, action) => {
     console.log(action.payload)
     return {
       ...state,
-      emoji: { ...state.emoji, [state.key]: `url(${action.payload})` },
+      emoji: { ...state.emoji, [state.key]: action.payload },
       flip: { ...state.flip, [state.key]: "" },
       turn: { ...state.turn, [state.key]: `rotate(0deg)` },
     };
