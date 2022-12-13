@@ -4,8 +4,7 @@ import { AiOutlineLogout as Out } from "react-icons/ai";
 import { useFireContext } from "./Context/FirebaseContext";
 import styled from "styled-components";
 import { keyframes } from "styled-components";
-import { useEffect, useRef, useState } from "react";
-import { useGlobalContext } from "./Context/ContextProvider";
+
 
 const Navigation = () => {
   const {
@@ -18,20 +17,6 @@ const Navigation = () => {
     ref,
   } = useFireContext();
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // const whenClickedOutside = (e) => {
-  //   //   if (sideMenu && ref.current && !ref.current.contains(e.target)) {
-  //   //     setSideMenu(false);
-  //   //   }
-  //   // };
-
-  //   document.addEventListener("click", whenClickedOutside);
-
-  //   return () => {
-  //     document.removeEventListener("click", whenClickedOutside);
-  //   };
-  // }, [sideMenu]);
 
   const Active = ({ isActive }) => {
     if (isActive) {
@@ -118,8 +103,6 @@ const head = keyframes` {
     border-bottom: solid 2px rgb(70, 156, 142);
   }
   75% {
-    padding-bottom: 0.1em;
-
     border-bottom: solid 2px rgb(70, 156, 142);
   }
   100% {
@@ -202,7 +185,6 @@ const Wrapper = styled.section`
         width: 1.25rem;
         justify-content: space-around;
         flex-direction: column;
-        // transition: all ease-in-out .6s ;
 
         div {
           height: 0.104rem;
@@ -245,8 +227,9 @@ const Wrapper = styled.section`
           flex-direction: column;
           font-size: 0.9rem;
           font-weight: 600;
-          transition: all 1s ease-out;
-          padding: 0;
+          transition: 0.5s ease-out;
+          transition-properrty:transform;
+          padding:0;
 
           .li {
             background: #52414e;

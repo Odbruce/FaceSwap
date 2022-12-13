@@ -1,10 +1,10 @@
 export const reducer = (state, action) => {
   if (action.type === "FACE_CHANGE") {
-    console.log("face_change")
+    
     return { ...state, Face: action.payload };
   }
   if(action.type === "LOAD"){
-    console.log(action.payload);
+    
     return {...state,Load:action.payload};
   }
 
@@ -20,7 +20,7 @@ export const reducer = (state, action) => {
   }
   
   if (action.type === "KEY") {
-    console.log("key")
+    
     return { ...state, key: action.payload };
   }
   if (action.type === "FETCH") {
@@ -44,7 +44,7 @@ export const reducer = (state, action) => {
   }
 
   if (action.type === "EMOJIED") {
-    console.log(action.payload)
+    
     return {
       ...state,
       emoji: { ...state.emoji, [state.key]: action.payload },
@@ -53,7 +53,7 @@ export const reducer = (state, action) => {
     };
   }
   if(action.type === "CLEAR_EMOJI"){
-    console.log("yes");
+    
     return{...state,emoji:""};
   }
 
@@ -63,7 +63,7 @@ export const reducer = (state, action) => {
     };
   }
   if(action.type === "INPUT_CHANGE"){
-    console.log("change")
+    
     return {
       ...state,img: action.payload
     };

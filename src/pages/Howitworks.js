@@ -104,8 +104,7 @@ const Howitworks = () => {
           <div>
             <h3>Copy stock image from search engine</h3>
             <p>
-              Search for an image of choice, open up the <br />
-              image in your browser and copy.
+              Search for an image of choice from your Photo library or double click the display button to be be able to paste an image address link you've copied from your favourite search engine.
             </p>
           </div>
         </motion.div>
@@ -116,8 +115,8 @@ const Howitworks = () => {
           <div>
             <h3>Paste and go</h3>
             <p>
-              Paste the copied link in Memed,click on the image's face then
-              hover on the animated emoji to pick a desired emoji.
+              Click on any face you want an emoji on then
+              hover on the animated emoji on the top left corner to pick a desired emoji.Not enough emojis? click on explore to be able to copy more emojis and paste in the controls panel.
             </p>
           </div>
         </motion.div>

@@ -10,7 +10,6 @@ const Home = () => {
   const {modal,dispatch}= useGlobalContext();
 
   useEffect(() => {
-    console.log(modal);
     let mode = setTimeout(() => {
       dispatch({type:"MODAL",payload:""});
     }, 3000);
@@ -25,7 +24,7 @@ const Home = () => {
     <Wrapper>
       {modal==="not_signedin"||modal==="no_img"?
         <motion.div initial={{opacity:0,}} animate={{opacity:1,}} transition={{duration:0.4}} className="modal">
-          <h3>Unable to save: 
+          <h3>Can't perform action: 
             {modal==="not_signedin"?" Please sign-in and try again":
             " Please make sure you've imported an image"}
           </h3>
@@ -33,8 +32,8 @@ const Home = () => {
       }
       <motion.div  className="title ">
         <motion.h1 initial={{y:-40}} animate= {{y:0,x:[20,0],rotateZ:-36}} whileHover={{scale:1.5,rotateZ:0,}}  transition={{stiffness:180,type:"spring",damping:5}} >M </motion.h1>
-        <motion.h1 initial={{y:-60}} animate= {{y:0,opacity:[0,1]}} whileHover={{scale:1.5,rotateZ:36,transition:{type:"spring",stiffness:180,damping:5}}} transition={{delay:0.4,stiffness:180,type:"spring",}} >E </motion.h1>
-        <motion.h1  animate= {{opacity:[0,1]}} whileHover={{scale:1.5,transition:{type:"spring",stiffness:180,damping:5}}} transition={{delay:1,stiffness:180,type:"spring"}} >M </motion.h1>
+        <motion.h1 initial={{opacity:0,y:-60}} animate= {{y:0,opacity:[0,0,1]}} whileHover={{scale:1.5,rotateZ:36,transition:{type:"spring",stiffness:180,damping:5}}} transition={{stiffness:180,type:"spring",}} >E </motion.h1>
+        <motion.h1  initial={{opacity:0}} animate= {{opacity:[0,0,0,0,1]}} whileHover={{scale:1.5,transition:{type:"spring",stiffness:180,damping:5}}} transition={{stiffness:180,type:"spring"}} >M </motion.h1>
         <motion.h1 initial={{y:-40}} animate= {{y:0,rotateZ:-24}} whileHover={{scale:1.5,rotateZ:0,transition:{type:"spring",stiffness:180,damping:5}}} transition={{stiffness:180,type:"spring"}} >E </motion.h1>
         <motion.h1  animate= {{y:[-60,0,0,10],rotateZ:50,x:[0,10,]}} whileHover={{scale:1.5,rotateZ:0,}} transition={{stiffness:180,type:"spring",damping:5,} } >D </motion.h1>
       </motion.div>     
@@ -51,6 +50,8 @@ const Wrapper = styled.section`
   .modal{
     position:fixed;
     color:rgb(255,255,255,0.8);
+    font-size: clamp(9px, calc(7px + 0.5vw), 16px);
+    font-family:"segoe UI";
     display:flex;
     align-items:center;
     justify-content:center;
@@ -60,13 +61,11 @@ const Wrapper = styled.section`
     margin:0 auto;
     min-height:32px;
     z-index:6;
-    height:70px;
-    background:#B4EC89;
+    padding:1em;
     background:#E0644B;
 
     h3{
     text-align:center;
-    font-family: "poppins" ,sans-serif ;
     letter-spacing:1.5px;
     }
   }

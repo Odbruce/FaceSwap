@@ -9,8 +9,6 @@ const ImageLinkForm = () => {
   const file = () => {
     let Base64;
     const doc = fileref.current.files[0];
-    console.log(doc);
-    // dispatch({ type: "URL", payload: URL.createObjectURL(doc) });
     let image = URL.createObjectURL(doc);
     const reader = new FileReader();
     reader.readAsDataURL(doc);
@@ -47,7 +45,6 @@ const ImageLinkForm = () => {
             <div className="back-wrap">
               <input
                 onChange={file}
-                // id="back"
                 type="file"
                 ref={fileref}
                 name=""
@@ -83,13 +80,15 @@ const Wrapper = styled.section`
       margin: 0 auto;
       perspective: 1000;
       z-index: 1;
-      // background: orange;
 
       .flip,
       .input1 {
         position: relative;
         border: 2px black solid;
         border-right: none;
+        border-top-color:transparent;
+        border-left-color:transparent;
+
         height: 2rem;
         transition: all 1s;
         -moz-backface-visibility: hidden;
@@ -108,8 +107,10 @@ const Wrapper = styled.section`
           padding: 2px;
           margin: 0;
           color: rgb(245, 153, 245);
+          transform: rotateX(180deg) ;
         }
         #front {
+
           &:focus {
             outline: none;
             color: thistle;
@@ -118,9 +119,9 @@ const Wrapper = styled.section`
         .back-wrap {
           -moz-backface-visibility: hidden;
           backface-visibility: hidden;
-          transform: rotateX(180deg) translateX(-0.2rem);
+          transform:rotateX(0deg) translate(-0.2rem);
           width: 12rem;
-          height: 2.1rem;
+          height:100%;
 
           #file {
             position: absolute;
@@ -129,13 +130,11 @@ const Wrapper = styled.section`
           }
           label {
             position: absolute;
-            font-family: "poppins", san-serif;
+            font-family: "segoe UI", san-serif;
             width: 100%;
             height: 100%;
             padding: 0.09rem 0.5rem 0.09rem 0.5rem;
-            background: #ecd689;
             background: rgb(19, 18, 18, 0.7);
-            color: #131212;
             color: #f5f5dc;
             line-height: 2.1rem;
             font-size: 1.3rem;
@@ -148,10 +147,9 @@ const Wrapper = styled.section`
       }
       .flip {
         transform: rotateX(180deg);
-        border-color: #b4ec89;
         border-color: rgb(19, 18, 18, 0.7);
-        border-bottom-color: transparent;
-        border-left-color: transparent;
+        border-color:black;
+        
       }
 
       .btn {

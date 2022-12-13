@@ -158,7 +158,17 @@ useEffect(()=>{
   //face emoji handling
   const angled = (e) => {
     const { value } = e.target;
+
     // setAngle(value);
+
+    if(!user){
+      return dispatch({type:"MODAL",payload:"not_signedin"});
+    }
+    else if (!Face&&user) {
+      return dispatch({type:"MODAL",payload:"no_img"});
+    }
+
+
     dispatch({
       type:"ANGLE",
       payload: value
@@ -170,16 +180,31 @@ useEffect(()=>{
   };
 
   const flipped = () => {
+
+    if(!user){
+      return dispatch({type:"MODAL",payload:"not_signedin"});
+    }
+    else if (!Face&&user) {
+      return dispatch({type:"MODAL",payload:"no_img"});
+    }
+
     dispatch({ type: "SCALE" });
     dispatch({ type: "FLIP" });
   };
 
   const emojiChange = (e) => {
-  dispatch({type:"EMOJI_CHANGE",payload:e.target.value});
+    dispatch({type:"EMOJI_CHANGE",payload:e.target.value});
 }
 
   const emojied = (e) => {
     const { src } = e.target;
+
+    if(!user){
+      return dispatch({type:"MODAL",payload:"not_signedin"});
+    }
+    else if (!Face&&user) {
+      return dispatch({type:"MODAL",payload:"no_img"});
+    }
     
     dispatch({
       type: "EMOJIED",

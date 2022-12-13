@@ -233,15 +233,13 @@ min-height: 100vh;
    
     .img_face {
         max-height:300px;
+        object-fit:cover;
         width: 350px;
         max-width: 400px;
     }
     
     .bounding-box {
       position: absolute;
-      // background-position: center;
-      // background-repeat: no-repeat;
-      // background-size: contain;
       object-fit:contain;
       border-radius: 50%;
     }

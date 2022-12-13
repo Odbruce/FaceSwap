@@ -156,6 +156,7 @@ const Wrapper = styled.section`
 
       .explore {
         font-weight:bold;
+        font-family:"segoe UI"; 
         text-decoration: none;
         color:rgb(40,36,228,.8);
         color:whitesmoke;

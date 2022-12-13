@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { Loading } from "../Utilities";
@@ -25,13 +24,11 @@ const FaceRecognition = () => {
   
 
   const saved = ()=>{
-    console.log(user)
     !user&&dispatch({type:"MODAL",payload:"not_signedin"});
     !Face&&user&&dispatch({type:"MODAL",payload:"no_img"});
 
     return user&&Face&&memed();
   }
-console.log(Face,modal);
 
   return (
     <Wrapper>
@@ -58,7 +55,6 @@ console.log(Face,modal);
           </div>
 
           <input
-            disabled = {!user||!Face}
             className="rotate-bar "
             type="range"
             min="-180"
@@ -68,7 +64,6 @@ console.log(Face,modal);
           />
           <div className="emoji ">
             <input
-              disabled = {!user||!Face}
               className="emoji-input"
               type="text"
               placeholder="Emoji..."
@@ -78,11 +73,11 @@ console.log(Face,modal);
             <button onClick={emojied}>+</button>
           </div>
           <div >
-            <motion.button animate={{rotateZ:0,y:0,x:0}} whileTap={{rotateZ:!user||!Face&&[20,-30,15,-40],x:!user||!Face&&[5,-10,10,-4], transition:{type:"spring",damping:5}}}  className={!user||!Face?"disabled-btn ":"btn"} onClick={flipped}>
+            <motion.button animate={{rotateZ:0,y:0,x:0}}   className={!user||!Face?"disabled-btn ":"btn"} onClick={flipped}>
               Flip
             </motion.button>{" "}
-            <motion.button animate={{rotateZ:0,y:0,x:0}} whileTap={{rotateZ:!user||!Face&&[20,-30,15,-40],x:!user||!Face&&[5,-10,10,-4], transition:{type:"spring",damping:5}}} className={!user||!Face?"disabled-btn ":"btn"} onClick={saved}>
-              Save{console.log(Face,user)}
+            <motion.button animate={{rotateZ:0,y:0,x:0}} className={!user||!Face?"disabled-btn ":"btn"} onClick={saved}>
+              Save
             </motion.button>
           </div>
         </div>

@@ -10,7 +10,7 @@ const SignIn = () => {
   const [error, setError] = useState("");
   let navigate = useNavigate();
   const { login, setisLoggedIn } = useFireContext();
-console.log("signin");
+
   useEffect(() => {
     let err = setTimeout(() => {
       setError("");

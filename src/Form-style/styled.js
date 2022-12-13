@@ -10,9 +10,10 @@ fieldset {
     .legend{
         font-size: 2em;
         margin: 0 auto;
+        font-family:segoe UI;
         background-image: linear-gradient(45deg, #f3ec78, #af4261, thistle);
         -webkit-background-clip: text;
-        bsckground-clip:text;
+        background-clip:text;
         color: transparent;
     }
 
@@ -24,6 +25,7 @@ fieldset {
 
         label {
             padding: 0.4em;
+            text-align:start;
             text-shadow: 0 4px 22px 0 rgba(0, 0, 0, 0.3);
         }
         .form-input {
@@ -52,12 +54,6 @@ fieldset {
         letter-spacing: 1px;
         outline:none;
         color: thistle;
-
-        // &:hover {
-        //     background: thistle;
-        //     color: #332333;
-        //     border-color: #332333;
-        // }
     }
 
     .register-link {
@@ -90,7 +86,8 @@ position: absolute;
 background: #c74343;
 color: white;
 z-index: -5;
-padding:1.5rem .5rem;
+padding:0.5em;
+font-family:segoe UI;
 opacity: 0;
 transition: all 1s ease;
 animation: forwards ${err} 1s ease;
